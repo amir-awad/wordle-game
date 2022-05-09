@@ -1,8 +1,12 @@
 main:-
-    write("Welcome to Pro-Wordle!"),nl,
-    write("----------------------"),nl,nl,
+    welcome,
     build_kb,
     play.
+
+welcome:-
+    write("Welcome to Pro-Wordle!"),nl,
+    write("----------------------"),nl,nl.
+
 
 
 build_kb:-
@@ -16,13 +20,9 @@ build_kb:-
     ).
 
 play:-
-    choose_and_play.
-
-% The player has to choose a length,which exists in the KB, of some word and its Category.
-choose_and_play:-
     nl,
     categories(AllCategories),
-    write("The available categories are:"),
+    write("The available categories are: "),
     write(AllCategories),nl,
     choose_category(C),
     choose_length(Len,C),
@@ -43,7 +43,7 @@ start_guessing(L,N,W):-
         ((N>=1,W == G,write("You Won!")));(N==1,W \== G,write("You Lost!"));
         
 
-        (string_length(G,GL),GL\=L,write("Word is not composed of 5 letters. Try again."),nl,
+        (string_length(G,Len),Len\=L,write("Word is not composed of "), write(L) ,write(" letters. Try again."),nl,
          write("Remaining Guesses are "),write(N),nl,nl,start_guessing(L,N,W));
 
     (
@@ -97,8 +97,8 @@ choose_length(Len,C):-
 is_category(C):-
     word(_,C).
 
-categories(C):-
-    setof(V,is_category(V),C).
+categories(L):-
+    setof(V,is_category(V),L).
 
 available_length(L):-
     word(W,_),
